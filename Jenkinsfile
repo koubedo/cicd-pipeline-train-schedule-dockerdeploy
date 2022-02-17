@@ -43,6 +43,8 @@ pipeline {
                 milestone(1)
                 withCredentials([usernamePassword(credentialsId: 'webserver_login', usernameVariable: 'USERNAME', passwordVariable: 'USERPASS')]) {
                     script {
+                        echo: 'caught error: $USERPASS'
+                        echo: 'caught error: $USERNAME'
                         sh "sshpass -p '$USERPASS' -v ssh -o StrictHostKeyChecking=no $USERNAME@$prod_ip \"docker pull koubedo/train-schedule:${env.BUILD_NUMBER}\""
                         try {
                             sh "sshpass -p '$USERPASS' -v ssh -o StrictHostKeyChecking=no $USERNAME@$prod_ip \"docker stop train-schedule\""
